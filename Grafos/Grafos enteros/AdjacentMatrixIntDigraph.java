@@ -4,17 +4,15 @@ import java.util.List;
 public class AdjacentMatrixIntDigraph implements IntGraph{
     private int V;
     private int E;
-    private int[][] matriz;
+    private int[][]  adj;
 
 
-    public AdjacentMatrixIntDigraph(int V){
-        if(V < 0){
-            throw new IllegalArgumentException();
-        }
-        this.V = V;
-        E = 0;
-        matriz = new int[V][V];
+    public AdjacentMatrixIntDigraph(int v){
+        V = v;
+        adj = new int[v][v];
     }
+
+
     @Override
     public int V() {
         return V;
@@ -27,29 +25,54 @@ public class AdjacentMatrixIntDigraph implements IntGraph{
 
     @Override
     public void addEdge(int v, int w) {
-        if(0 > v ||  v >= V){
+       if(v < 0 || v >= V){
             throw new IllegalArgumentException();
         }
-
-        if(0 > w ||  w >= V){
+        if(w < 0 || w >= V){
             throw new IllegalArgumentException();
         }
-        E++;
-        matriz[v][w] = 1;
+        if(adj[v][w] != 1){
+            adj[v][w] = 1;
+            E++;
+        }
     }
 
     @Override
     public List<Integer> adj(int v) {
-        if(0 > v ||  v >= V){
+        if(v < 0 || v >= V){
             throw new IllegalArgumentException();
         }
         List<Integer> aux = new LinkedList<>();
 
-        for(int i = 0 ; i < V ; i++){
-            if(matriz[v][i] == 1){
-            aux.add(matriz[v][i]);
+        for(int i  = 0 ; i < V; i++){
+            if(adj[v][i] == 1){
+                aux.add(i);
             }
         }
         return aux;
+    }
+   
+    public static void main(String[] args) {
+        // Crear un grafo con 5 vértices
+        AdjacentMatrixIntDigraph grafo = new AdjacentMatrixIntDigraph(5);
+
+        // Agregar algunas aristas
+        grafo.addEdge(0, 1);
+        grafo.addEdge(0, 2);
+        grafo.addEdge(1, 3);
+        grafo.addEdge(3, 4);
+
+        // Imprimir las listas de adyacencia
+        for (int v = 0; v < grafo.V(); v++) {
+            System.out.print("Adyacentes a " + v + ": ");
+            for (int w : grafo.adj(v)) {
+                System.out.print(w + " ");
+            }
+            System.out.println();
+        }
+
+        // Imprimir cantidad de vértices y aristas
+        System.out.println("Cantidad de vértices: " + grafo.V());
+        System.out.println("Cantidad de aristas: " + grafo.E());
     }
 }
