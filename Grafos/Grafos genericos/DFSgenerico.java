@@ -18,19 +18,17 @@ public class DFSgenerico<T extends Comparable<? super T>> {
         this.s = s;
         marked = new boolean[G.V()];
         edgeTo = new int[G.V()];
-        recorrido = new ArrayList<>();
-        dfs(G , G.indexOf(s));
+        dfs(G,G.indexOf(s));
     }
 
 
     private void dfs(AdjacencyListGraph<T> G,int v){
         marked[v] = true;
         count++;
-        recorrido.add(G.nameOf(v));
-        for(int i : G.indexVerticesAdjacentes(v)){
-            if(!marked[i]){
-                edgeTo[i] = v;
-                dfs(G , i);
+        for(int e : G.indexVerticesAdjacentes(v)){
+            if(!marked[e]){
+                edgeTo[e] = v;
+                dfs(G, e);
             }
         }
     }
@@ -39,37 +37,54 @@ public class DFSgenerico<T extends Comparable<? super T>> {
         return (count == G.V());
     }
 
-     public List<T> getRecorrido(){
-        return recorrido;
+
+    public Boolean hashTo(T v){
+        return marked[G.indexOf(v)];
     }
 
-    public static void main(String[] args) {
-     // Crear un grafo con 5 vértices
-    AdjacencyListGraph<String> grafo = new AdjacencyListGraph<>(5);
 
-    // Agregar vértices
-    grafo.addVertex("A");
-    grafo.addVertex("B");
-    grafo.addVertex("C");
-    grafo.addVertex("D");
-    grafo.addVertex("E");
+    public List<Comparable> pathTo(T v){
+        if(!hashTo(v)){
+            throw new IllegalArgumentException();
+        }
 
-    // Agregar aristas
-    grafo.addEdge("A", "B");
-    grafo.addEdge("B", "D");
-    grafo.addEdge("A", "C");
-    grafo.addEdge("C", "E");
+        List<Comparable> aux = new LinkedList<>();
 
-    // Ejecutar DFS desde "A"
-    DFSgenerico<String> dfs = new DFSgenerico<>(grafo, "A");
+        for(int i = G.indexOf(v) ; i != G.indexOf(s); i = edgeTo[i]){
+            aux.addFirst(G.nameOf(i));
+        }
 
-    // Mostrar recorrido DFS
-    System.out.println("Recorrido DFS desde 'A':");
-    for (Comparable i : dfs.getRecorrido()) {
-        System.out.println(i.toString());
+        aux.addFirst(s);
+
+        return aux;
     }
 
-    // Verificar si el grafo es conexo
-    System.out.println("¿Es conexo? " + dfs.isConexo());
+
+
+public static void main(String[] args) {
+        // Crear grafo con vértices tipo String
+        AdjacencyListGraph<String> grafo = new AdjacencyListGraph<String>(5);
+
+        // Agregar vértices
+        grafo.addVertex("A");
+        grafo.addVertex("B");
+        grafo.addVertex("C");
+        grafo.addVertex("D");
+        grafo.addVertex("E");
+
+        // Agregar aristas (grafo no dirigido)
+        grafo.addEdge("A", "B");
+        grafo.addEdge("A", "C");
+        grafo.addEdge("B", "D");
+        grafo.addEdge("C", "E");
+
+        // Ejecutar DFS desde "A"
+        DFSgenerico<String> dfs = new DFSgenerico<>(grafo, "A");
+
+        // Probar conexión y camino a "E"
+        System.out.println("¿El grafo es conexo? " + dfs.isConexo());
+        System.out.println("¿Hay camino de A a E?: " + dfs.hashTo("E"));
+        System.out.print("Camino de A a E (por índices): ");
+        System.out.println(dfs.pathTo("E"));
     }
 }

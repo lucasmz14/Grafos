@@ -62,7 +62,7 @@ public class AdjacentMatrixGraph <T extends Comparable<? super T>> implements Gr
         if(!containsVertex(w)){
             throw new IllegalArgumentException();
         }
-        if(adj[indexOf(v)][indexOf(w)] != 1){
+        if(adj[indexOf(v)][indexOf(w)] != 1 && adj[indexOf(w)][indexOf(v)] != 1){
             adj[indexOf(v)][indexOf(w)] = 1;
             adj[indexOf(w)][indexOf(v)] = 1;
             E++;
