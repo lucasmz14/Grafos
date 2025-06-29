@@ -8,6 +8,9 @@ public class AdjacentMatrixIntGraph implements IntGraph{
 
 
     public AdjacentMatrixIntGraph(int v){
+        if(v < 0){
+            throw new IllegalArgumentException();
+        }
         V = v;
         adj = new int[v][v];
     }

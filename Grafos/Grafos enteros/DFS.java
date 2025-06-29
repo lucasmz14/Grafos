@@ -3,54 +3,54 @@ import java.util.List;
 
 public class DFS {
     private boolean[] marked;
-    private Boolean isConexo;
-    private int count;
     private int[] edgeTo;
-    private AdjacencyListIntGraph G;
     private int s;
+    private AdjacencyListIntGraph G;
+    private int count;
 
-    public DFS(AdjacencyListIntGraph G, int s){
+    public DFS(AdjacencyListIntGraph G , int s){
         this.G = G;
         this.s = s;
-        marked = new boolean[G.V()];
         edgeTo = new int[G.V()];
+        marked = new boolean[G.V()];
         dfs(G , s);
     }
 
 
-    private void dfs(AdjacencyListIntGraph G,int s){
-        marked[s] = true;
+    public void dfs(AdjacencyListIntGraph G ,int s){
         count++;
-        for(int i : G.adj(s)){
-            if(!marked[i]){
-                edgeTo[i] = s;
-                dfs(G , i);
+        marked[s] = true;
+        for(int e : G.adj(s)){
+            if(!marked[e]){
+            edgeTo[e] = s;
+            dfs(G,e);
             }
         }
     }
 
     public boolean isConexo(){
-        return (count == G.V());
+        return count == G.V();
     }
 
-    public boolean hasPathTo(int v){
+
+    public Boolean hashTo(int v){
         return marked[v];
     }
 
 
     public List<Integer> pathTo(int v){
-        if(!hasPathTo(v)){
-            return null;
+        if(!marked[v]){
+            throw new IllegalArgumentException();
         }
 
         List<Integer> aux = new LinkedList<>();
 
-        for(int i = v ; i != s ; i = edgeTo[i]){
+        for(int i = v ; i != s; i = edgeTo[i]){
             aux.addFirst(i);
         }
+
         aux.addFirst(s);
+
         return aux;
     }
-
-
 }

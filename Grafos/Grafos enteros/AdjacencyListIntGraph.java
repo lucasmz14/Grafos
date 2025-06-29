@@ -7,19 +7,16 @@ public class AdjacencyListIntGraph implements IntGraph{
     private List<Integer>[] adj;
 
 
-    public AdjacencyListIntGraph(int V){
-        if( V < 0){
+    public AdjacencyListIntGraph(int v){
+        if(v < 0){
             throw new IllegalArgumentException();
         }
+        this.V = v;
+        adj = new LinkedList[v];
 
-        this.V = V;
-        this.E = 0;
-        adj = new LinkedList[V];
-
-        for(int v = 0 ; v < V ; v++){
-            adj[v] = new LinkedList<Integer>();
+        for(int i = 0 ; i < v ; i++){
+            adj[i] = new LinkedList<Integer>();
         }
-
     }
 
 
@@ -27,36 +24,34 @@ public class AdjacencyListIntGraph implements IntGraph{
     public int V() {
         return V;
     }
+
+
     @Override
     public int E() {
-        return E;
+       return E;
     }
+
+
     @Override
     public void addEdge(int v, int w) {
-        if(0 > v ||  v >= V){
+        if(v < 0 || v >= V){
             throw new IllegalArgumentException();
         }
-
-        if(0 > w ||  w >= V){
+        if(w < 0 || w >= V){
             throw new IllegalArgumentException();
         }
-
         E++;
         adj[v].add(w);
         adj[w].add(v);
     }
+
+
     @Override
     public List<Integer> adj(int v) {
-        if(0 > v ||  v >= V){
+        if(v < 0 || v >= V){
             throw new IllegalArgumentException();
         }
-
         return adj[v];
     }
-
-
-
-
-
 
 }

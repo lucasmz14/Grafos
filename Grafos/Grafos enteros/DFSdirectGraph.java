@@ -44,6 +44,7 @@ public class DFSdirectGraph {
         dfs2(invertido, s);
         return count == count2;
     }
+    
     private void dfs2(AdjacencyListIntDigraph G,int s){
         marked2[s] = true;
         count2++;
