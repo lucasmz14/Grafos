@@ -9,11 +9,13 @@ public class DFSdirectGraph {
     private int count2;
     private int[] edgeTo;
     private AdjacencyListIntDigraph G;
+    private AdjacencyListIntDigraph invertido;
     private int s;
 
     public DFSdirectGraph(AdjacencyListIntDigraph G, int s){
         this.G = G;
         this.s = s;
+        invertido = new AdjacencyListIntDigraph(G.V());
         marked = new boolean[G.V()];
         marked2 = new boolean[G.V()];
         edgeTo = new int[G.V()];
@@ -33,25 +35,25 @@ public class DFSdirectGraph {
     }
 
     public boolean isConexo(){
-       AdjacencyListIntDigraph aux = new AdjacencyListIntDigraph(G.V());
-       for(int i = 0 ; i < G.V() ; i++){
-                for(int w : G.adj(i)){
-                    aux.addEdge(w, i);
-                }
-       }
-       dfs2(aux,s);
-       return (count == count2);
-    }
+        for(int i = 0 ; i < G.V(); i++){
+            for(int w : G.adj(i)){
+                invertido.addEdge(w, i);
+            }
+        }
 
+        dfs2(invertido, s);
+        return count == count2;
+    }
     private void dfs2(AdjacencyListIntDigraph G,int s){
         marked2[s] = true;
         count2++;
-        for(int i : G.adj(s)){
+        for(int i : invertido.adj(s)){
             if(!marked2[i]){
-                dfs2(G , i);
+                dfs2(invertido , i);
             }
         }
     }
+
     public boolean hasPathTo(int v){
         return marked[v];
     }
@@ -71,16 +73,15 @@ public class DFSdirectGraph {
         return aux;
     }
 
-    public class Main {
     public static void main(String[] args) {
         // Crear un grafo dirigido con 4 nodos (0, 1, 2, 3)
         AdjacencyListIntDigraph grafo = new AdjacencyListIntDigraph(4);
 
-        // Agregar aristas dirigidas
-        grafo.addEdge(0, 1);
-        grafo.addEdge(1, 2);
-        grafo.addEdge(2, 0);
-        grafo.addEdge(3, 0); // Esto cierra el ciclo y puede hacerlo fuertemente conexo
+// Crea un ciclo fuerte entre todos los nodos:
+    grafo.addEdge(0, 1);
+    grafo.addEdge(1, 2);
+    grafo.addEdge(2, 3);
+    grafo.addEdge(3, 0); // Cierra el ciclo
 
         // Crear el DFS
         DFSdirectGraph dfs = new DFSdirectGraph(grafo, 0);
@@ -99,5 +100,5 @@ public class DFSdirectGraph {
             System.out.println("No hay camino.");
         }
     }
-}
+
 }
