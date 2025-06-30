@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Prim {
     private double[] distTo;
-    private DirectedEdge[] edgeTo;
+    private Edge[] edgeTo;
     private IndexMinPQ<Double> pq;
     private int s;
     private boolean[] marked;
@@ -14,7 +14,7 @@ public class Prim {
         this.G = G;
         this.s = s;
         distTo = new double[G.V()];
-        edgeTo = new DirectedEdge[G.V()];
+        edgeTo = new Edge[G.V()];
         marked = new boolean[G.V()];
         pq = new IndexMinPQ<>(G.V());
         for(int i = 0 ; i < G.V(); i++){
@@ -29,7 +29,7 @@ public class Prim {
         while(!pq.isEmpty()){
             int v = pq.delMin();
             marked[v] = true;
-            for(DirectedEdge e : G.adj(v)){
+            for(Edge e : G.adj(v)){
                 if(!marked[e.to] && e.weight < distTo[e.to]){
                     edgeTo[e.to] = e;
                     distTo[e.to] = e.weight; 
@@ -41,8 +41,8 @@ public class Prim {
     }
 
 
-    public List<DirectedEdge> MST(){
-        List<DirectedEdge> aux = new LinkedList<>();
+    public List<Edge> MST(){
+        List<Edge> aux = new LinkedList<>();
 
         for(int i = 0 ; i < edgeTo.length ; i++){
             if(edgeTo[i] != null){
@@ -70,17 +70,17 @@ public class Prim {
         EdgeWeightedIntGraph G = new EdgeWeightedIntGraph(V);
 
         // Agrego aristas: (from, to, peso)
-        G.addEdge(new DirectedEdge(0, 1, 1.0));
+        G.addEdge(new Edge(0, 1, 1.0));
 
-        G.addEdge(new DirectedEdge(0, 3, 4.0));
+        G.addEdge(new Edge(0, 3, 4.0));
 
-        G.addEdge(new DirectedEdge(1, 3, 2.0));
+        G.addEdge(new Edge(1, 3, 2.0));
 
         // Ejecutar Prim desde el nodo 0
         Prim prim = new Prim(G, 0);
 
         System.out.println("Aristas del MST:");
-        for (DirectedEdge e : prim.MST()) {
+        for (Edge e : prim.MST()) {
             if (e != null) {
                 System.out.println(e.from + " — " + e.to + " (peso " + e.weight + ")");
             }

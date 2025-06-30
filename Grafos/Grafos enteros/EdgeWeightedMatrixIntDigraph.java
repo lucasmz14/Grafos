@@ -1,10 +1,10 @@
 import java.util.LinkedList;
 import java.util.List;
 
-public class EdgeWeightedMatrixIntDigraph {
+public class EdgeWeightedMatrixIntDigraph implements EdgeGraph{
     private final int V;
     private int E;
-    private DirectedEdge[][] adj;
+    private Edge[][] adj;
 
 
     public EdgeWeightedMatrixIntDigraph(int V){
@@ -12,7 +12,7 @@ public class EdgeWeightedMatrixIntDigraph {
             throw new IllegalArgumentException();
         }
         this.V = V;
-        adj = new DirectedEdge[V][V];
+        adj = new Edge[V][V];
     }
 
     public int V(){
@@ -24,7 +24,7 @@ public class EdgeWeightedMatrixIntDigraph {
     }
 
 
-    public void addEdge(DirectedEdge e){
+    public void addEdge(Edge e){
         if(e.from < 0 || e.from >= V){
             throw new IllegalArgumentException();
         }
@@ -35,12 +35,12 @@ public class EdgeWeightedMatrixIntDigraph {
         E++;
     }
 
-    public List<DirectedEdge> adj(int v){
-        if(v < 0 || v > V){
+    public List<Edge> adj(int v){
+        if(v < 0 || v >= V){
             throw new IllegalArgumentException();
         }
 
-        List<DirectedEdge> aux = new LinkedList<>();
+        List<Edge> aux = new LinkedList<>();
         for(int i = 0 ; i < V ; i++){
             if(adj[v][i] != null){
             aux.add(adj[v][i]);

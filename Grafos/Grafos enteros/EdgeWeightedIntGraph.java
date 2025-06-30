@@ -1,10 +1,10 @@
 import java.util.LinkedList;
 import java.util.List;
 
-public class EdgeWeightedIntGraph {
+public class EdgeWeightedIntGraph  implements EdgeGraph{
     private final int V;
     private int E;
-    private List<DirectedEdge>[] adj;
+    private List<Edge>[] adj;
 
 
     public EdgeWeightedIntGraph(int V){
@@ -14,10 +14,10 @@ public class EdgeWeightedIntGraph {
         this.V = V;
         adj = new LinkedList[V];
         for(int i = 0 ; i < V ; i++){
-            adj[i] = new LinkedList<DirectedEdge>();
+            adj[i] = new LinkedList<Edge>();
         }
     }
-
+    @Override
     public int V(){
         return V;
     }
@@ -26,8 +26,8 @@ public class EdgeWeightedIntGraph {
         return E;
     }
 
-
-    public void addEdge(DirectedEdge e){
+    @Override
+    public void addEdge(Edge e){
         if(e.from < 0 || e.from >= V){
             throw new IllegalArgumentException();
         }
@@ -39,8 +39,9 @@ public class EdgeWeightedIntGraph {
         E++;
     }
 
-    public List<DirectedEdge> adj(int v){
-        if(v < 0 || v > V){
+    @Override
+    public List<Edge> adj(int v){
+        if(v < 0 || v >= V){
             throw new IllegalArgumentException();
         }
 

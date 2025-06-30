@@ -24,7 +24,7 @@ public class Dijkstra {
         pq.insert(s, 0.0);
         while(!pq.isEmpty()){
             int v = pq.delMin();
-            for(DirectedEdge e : G.adj(v)){
+            for(Edge e : G.adj(v)){
                 relax(e);
             }
         }
@@ -32,7 +32,7 @@ public class Dijkstra {
 
 
 
-    private void relax(DirectedEdge e){
+    private void relax(Edge e){
         int v = e.from;
         int w = e.to;
         if(distTo[w] > distTo[v] + e.weight){
@@ -67,12 +67,12 @@ public class Dijkstra {
     EdgeWeightedIntDigraph G = new EdgeWeightedIntDigraph(5);
 
     // Agregar algunas aristas dirigidas con peso
-    G.addEdge(new DirectedEdge(0, 1, 2.0));
-    G.addEdge(new DirectedEdge(0, 2, 4.0));
-    G.addEdge(new DirectedEdge(1, 2, 1.0));
-    G.addEdge(new DirectedEdge(1, 3, 7.0));
-    G.addEdge(new DirectedEdge(2, 4, 3.0));
-    G.addEdge(new DirectedEdge(3, 4, 1.0));
+    G.addEdge(new Edge(0, 1, 2.0));
+    G.addEdge(new Edge(0, 2, 4.0));
+    G.addEdge(new Edge(1, 2, 1.0));
+    G.addEdge(new Edge(1, 3, 7.0));
+    G.addEdge(new Edge(2, 4, 3.0));
+    G.addEdge(new Edge(3, 4, 1.0));
 
     // Crear instancia de Dijkstra desde el nodo 0
     Dijkstra dijkstra = new Dijkstra(G, 0);

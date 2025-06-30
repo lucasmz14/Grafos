@@ -3,13 +3,13 @@ import java.util.List;
 
 public class FloydWarshall {
     private double[][] distTo;
-    private DirectedEdge[][] edgeTo;
+    private Edge[][] edgeTo;
     private EdgeWeightedIntDigraph G;
 
     public FloydWarshall(EdgeWeightedIntDigraph G){
         int v = G.V();
         distTo = new double[v][v];
-        edgeTo = new DirectedEdge[v][v];
+        edgeTo = new Edge[v][v];
         fw(G);
     }
     
@@ -26,7 +26,7 @@ public class FloydWarshall {
         }
 
         for(int i = 0 ; i < G.V(); i++){
-            for(DirectedEdge e : G.adj(i)){
+            for(Edge e : G.adj(i)){
                 distTo[e.from][e.to] = e.weight;
                 edgeTo[e.from][e.to] = e;
             }
@@ -50,12 +50,12 @@ public class FloydWarshall {
     }
 
 
-    public List<DirectedEdge> pathTo(int v , int w){
+    public List<Edge> pathTo(int v , int w){
         if(!hasPathTo(v,w)){
             return null;
         }
 
-        List<DirectedEdge> aux = new LinkedList<>();
+        List<Edge> aux = new LinkedList<>();
         
         for(int i = v; i <= w ; i++){
             if(edgeTo[v][i] != null){
@@ -69,11 +69,11 @@ public class FloydWarshall {
         int V = 4;
         EdgeWeightedIntDigraph graph = new EdgeWeightedIntDigraph(V);
 
-        graph.addEdge(new DirectedEdge(0, 1, 5));
-        graph.addEdge(new DirectedEdge(0, 3, 10));
-        graph.addEdge(new DirectedEdge(1, 2, 3));
-        graph.addEdge(new DirectedEdge(1, 3, 15));
-        graph.addEdge(new DirectedEdge(2, 3, 1));
+        graph.addEdge(new Edge(0, 1, 5));
+        graph.addEdge(new Edge(0, 3, 10));
+        graph.addEdge(new Edge(1, 2, 3));
+        graph.addEdge(new Edge(1, 3, 15));
+        graph.addEdge(new Edge(2, 3, 1));
 
         FloydWarshall fw = new FloydWarshall(graph);
 
@@ -82,7 +82,7 @@ public class FloydWarshall {
 
         if (fw.hasPathTo(from, to)) {
             System.out.println("Camino de " + from + " a " + to + ":");
-            for (DirectedEdge e : fw.pathTo(from, to)) {
+            for (Edge e : fw.pathTo(from, to)) {
                 System.out.println(e.from() + " -> " + e.to() + " (" + e.weight() + ")");
             }
         } else {
