@@ -1,12 +1,12 @@
 import java.util.List;
 import java.util.TreeMap;
 
-public class AdjacencyMatrixWeightedGraph <T extends Comparable<? super T>> implements WeightedDigraph<T>{
+public class AdjacencyMatrixWeightedGraph <T extends Comparable<? super T>> implements WeightedGraph<T>{
     private int V;
     private int E;
     private TreeMap<T , Integer> map;
     private T[] keys;
-    private DirectedEdgeL[][] adj;
+    private WeightedEdgeL[][] adj;
 
     public AdjacencyMatrixWeightedGraph(int v){
         if(v < 0){
@@ -16,7 +16,7 @@ public class AdjacencyMatrixWeightedGraph <T extends Comparable<? super T>> impl
         E = 0;
         map = new TreeMap<>();
         keys = (T[]) new Comparable[v];
-        adj = new DirectedEdgeL[v][v];
+        adj = new WeightedEdgeL[v][v];
     }
     @Override
     public int V() {
@@ -61,8 +61,8 @@ public class AdjacencyMatrixWeightedGraph <T extends Comparable<? super T>> impl
         if(!containsVertex(to)){
             throw new IllegalArgumentException();
         }
-        DirectedEdgeL aux = new DirectedEdgeL(from, to, weight);
-        DirectedEdgeL aux2 = new DirectedEdgeL(to, from, weight);
+        WeightedEdgeL aux = new WeightedEdgeL(from, to, weight);
+        WeightedEdgeL aux2 = new WeightedEdgeL(to, from, weight);
         adj[indexOf(from)][indexOf(to)] = aux;
         adj[indexOf(to)][indexOf(from)] = aux2;
         E++;

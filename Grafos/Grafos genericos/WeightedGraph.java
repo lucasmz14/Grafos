@@ -1,6 +1,6 @@
 import java.util.List;
 
-public interface WeightedDigraph<T extends Comparable<? super T>> {
+public interface WeightedGraph<T extends Comparable<? super T>> {
 
     public int V();
 

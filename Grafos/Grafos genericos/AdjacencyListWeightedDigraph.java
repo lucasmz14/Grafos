@@ -3,12 +3,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-public class AdjacencyListWeightedDigraph <T extends Comparable<? super T>> implements WeightedDigraph<T>{
+public class AdjacencyListWeightedDigraph <T extends Comparable<? super T>> implements WeightedGraph<T>{
     private int V;
     private int E;
     private TreeMap<T , Integer> map;
     private T[] keys;
-    private List<DirectedEdgeL<T>>[] adj;
+    private List<WeightedEdgeL<T>>[] adj;
 
 
 
@@ -38,7 +38,7 @@ public class AdjacencyListWeightedDigraph <T extends Comparable<? super T>> impl
         int vid = V++;
         keys[vid] = v;
         map.put(v,vid);
-        adj[vid] = new LinkedList<DirectedEdgeL<T>>();
+        adj[vid] = new LinkedList<WeightedEdgeL<T>>();
     }
     @Override
     public boolean containsVertex(T v) {
@@ -52,7 +52,7 @@ public class AdjacencyListWeightedDigraph <T extends Comparable<? super T>> impl
         if(!containsVertex(to)){
             throw new IllegalArgumentException();
         }
-        DirectedEdgeL<T> aux = new DirectedEdgeL<>(from, to, weight);
+        WeightedEdgeL<T> aux = new WeightedEdgeL<>(from, to, weight);
         adj[indexOf(from)].add(aux);
     }
 
@@ -70,7 +70,7 @@ public class AdjacencyListWeightedDigraph <T extends Comparable<? super T>> impl
 
         for(int i = 0 ; i < V();i++){
             res += nameOf(i).toString() + ": ";
-            for(DirectedEdgeL<T> e : adj[i]){
+            for(WeightedEdgeL<T> e : adj[i]){
                 res += e.toString() +" ";
             }
             res += '\n';

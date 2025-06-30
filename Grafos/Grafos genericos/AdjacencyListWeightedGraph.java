@@ -3,23 +3,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implements WeightedDigraph<T>{
+public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implements WeightedGraph<T>{
     private int V;
     private int E;
-    private TreeMap<T , Integer> map;
+    private TreeMap<T, Integer> map;
     private T[] keys;
-    private List<DirectedEdgeL<T>>[] adj;
+    private List<WeightedEdgeL>[] adj;
 
-
-
-    public AdjacencyListWeightedGraph(int V){
-        if(V < 0){
+    public AdjacencyListWeightedGraph(int v){
+        if(v < 0){
             throw new IllegalArgumentException();
         }
-        this.V = 0;
+        V = 0;
+        E = 0;
         map = new TreeMap<>();
-        keys = (T[]) new Comparable[V];
-        adj = new LinkedList[V];
+        keys = (T[]) new Comparable[v];
+        adj = new LinkedList[v];
     }
     @Override
     public int V() {
@@ -28,22 +27,35 @@ public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implem
 
     @Override
     public int E() {
-        return E;
+       return E;
     }
+
     @Override
     public void addVertex(T v) {
         if(containsVertex(v)){
             throw new IllegalArgumentException();
         }
         int vid = V++;
+        map.put(v ,vid);
         keys[vid] = v;
-        map.put(v,vid);
-        adj[vid] = new LinkedList<DirectedEdgeL<T>>();
+        adj[vid] = new LinkedList<>();
     }
+
     @Override
     public boolean containsVertex(T v) {
         return map.containsKey(v);
     }
+
+    @Override
+    public T nameOf(int v) {
+       return keys[v];
+    }
+
+    @Override
+    public int indexOf(T v) {
+       return map.get(v);
+    }
+
     @Override
     public void addEdge(T from, T to, double weight) {
         if(!containsVertex(from)){
@@ -52,34 +64,26 @@ public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implem
         if(!containsVertex(to)){
             throw new IllegalArgumentException();
         }
-        DirectedEdgeL<T> aux = new DirectedEdgeL<>(from, to, weight);
-        DirectedEdgeL<T> aux2 = new DirectedEdgeL<>(to, from, weight);
+        WeightedEdgeL aux = new WeightedEdgeL<T>(from, to, weight);
+        WeightedEdgeL aux2 = new WeightedEdgeL<T>(to, from, weight);
         adj[indexOf(from)].add(aux);
         adj[indexOf(to)].add(aux2);
-    }
-
-    @Override
-    public T nameOf(int v) {
-        return keys[v];
-    }
-    @Override
-    public int indexOf(T v) {
-        return map.get(v);
+        E++;
     }
 
     public String toString(){
         String res = "";
-
-        for(int i = 0 ; i < V();i++){
+        for(int i = 0 ; i < V(); i++){
             res += nameOf(i).toString() + ": ";
-            for(DirectedEdgeL<T> e : adj[i]){
-                res += e.toString() +" ";
+            for(WeightedEdgeL e : adj[i]){
+                res += e.toString() + " ";
             }
             res += '\n';
         }
 
         return res;
     }
+    
     public static void main(String[] args) {
         // Crear grafo con capacidad inicial para 5 vértices
         AdjacencyListWeightedGraph<String> grafo = new AdjacencyListWeightedGraph<>(5);

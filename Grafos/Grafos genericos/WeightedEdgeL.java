@@ -1,9 +1,9 @@
-public class DirectedEdgeL<T> {
+public class WeightedEdgeL<T> {
     private final T from;
     private final T to;
     private final double weight;
 
-    public DirectedEdgeL(T from, T to, double weight) {
+    public WeightedEdgeL(T from, T to, double weight) {
         this.from = from;
         this.to = to;
         this.weight = weight;
