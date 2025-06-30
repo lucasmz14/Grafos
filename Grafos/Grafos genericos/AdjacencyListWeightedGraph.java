@@ -6,9 +6,10 @@ import java.util.TreeMap;
 public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implements WeightedGraph<T>{
     private int V;
     private int E;
-    private TreeMap<T, Integer> map;
+    private TreeMap<T,Integer> map;
     private T[] keys;
     private List<WeightedEdgeL>[] adj;
+
 
     public AdjacencyListWeightedGraph(int v){
         if(v < 0){
@@ -20,6 +21,7 @@ public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implem
         keys = (T[]) new Comparable[v];
         adj = new LinkedList[v];
     }
+
     @Override
     public int V() {
         return V;
@@ -27,16 +29,16 @@ public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implem
 
     @Override
     public int E() {
-       return E;
+        return E;
     }
 
     @Override
     public void addVertex(T v) {
-        if(containsVertex(v)){
+         if(containsVertex(v)){
             throw new IllegalArgumentException();
         }
         int vid = V++;
-        map.put(v ,vid);
+        map.put(v,vid);
         keys[vid] = v;
         adj[vid] = new LinkedList<>();
     }
@@ -48,7 +50,7 @@ public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implem
 
     @Override
     public T nameOf(int v) {
-       return keys[v];
+        return keys[v];
     }
 
     @Override
@@ -58,10 +60,10 @@ public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implem
 
     @Override
     public void addEdge(T from, T to, double weight) {
-        if(!containsVertex(from)){
+         if(!containsVertex(from)){
             throw new IllegalArgumentException();
         }
-        if(!containsVertex(to)){
+         if(!containsVertex(to)){
             throw new IllegalArgumentException();
         }
         WeightedEdgeL aux = new WeightedEdgeL<T>(from, to, weight);
@@ -78,11 +80,12 @@ public class AdjacencyListWeightedGraph <T extends Comparable<? super T>> implem
             for(WeightedEdgeL e : adj[i]){
                 res += e.toString() + " ";
             }
+
             res += '\n';
         }
-
         return res;
     }
+
     
     public static void main(String[] args) {
         // Crear grafo con capacidad inicial para 5 vértices
