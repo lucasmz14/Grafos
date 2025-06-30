@@ -7,8 +7,8 @@ public interface EdgeGraph{
 
     public int E();
 
-    public void addEdge(Edge e);
+    public void addEdge(WeightedEdge e);
 
-    public List<Edge> adj(int v);
+    public List<WeightedEdge> adj(int v);
 
 }

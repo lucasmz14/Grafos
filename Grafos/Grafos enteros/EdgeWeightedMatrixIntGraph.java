@@ -4,7 +4,7 @@ import java.util.List;
 public class EdgeWeightedMatrixIntGraph implements EdgeGraph{
     private int V;
     private int E;
-    private Edge[][] adj;
+    private WeightedEdge[][] adj;
 
 
     public EdgeWeightedMatrixIntGraph(int v){
@@ -12,7 +12,7 @@ public class EdgeWeightedMatrixIntGraph implements EdgeGraph{
             throw new IllegalArgumentException();
         }
         V = v;
-        adj = new Edge[v][v]; 
+        adj = new WeightedEdge[v][v]; 
     }
     @Override
     public int V() {
@@ -25,7 +25,7 @@ public class EdgeWeightedMatrixIntGraph implements EdgeGraph{
     }
 
     @Override
-    public void addEdge(Edge e) {
+    public void addEdge(WeightedEdge e) {
        if(e.from < V || e.from >= V){
             throw new IllegalArgumentException();
        }
@@ -38,12 +38,12 @@ public class EdgeWeightedMatrixIntGraph implements EdgeGraph{
     }
 
     @Override
-    public List<Edge> adj(int v) {
+    public List<WeightedEdge> adj(int v) {
         if(v < 0 || v >= V){
             throw new IllegalArgumentException();
         }
 
-        List<Edge> aux = new LinkedList<>();
+        List<WeightedEdge> aux = new LinkedList<>();
 
         for(int i = 0 ; i < V() ; i++){
             if(adj[v][i] != null){

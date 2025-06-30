@@ -4,7 +4,7 @@ import java.util.List;
 public class EdgeWeightedIntDigraph implements EdgeGraph{
     private final int V;
     private int E;
-    private List<Edge>[] adj;
+    private List<WeightedEdge>[] adj;
 
 
     public EdgeWeightedIntDigraph(int V){
@@ -14,7 +14,7 @@ public class EdgeWeightedIntDigraph implements EdgeGraph{
         this.V = V;
         adj = new LinkedList[V];
         for(int i = 0 ; i < V ; i++){
-            adj[i] = new LinkedList<Edge>();
+            adj[i] = new LinkedList<WeightedEdge>();
         }
     }
 
@@ -27,7 +27,7 @@ public class EdgeWeightedIntDigraph implements EdgeGraph{
     }
 
 
-    public void addEdge(Edge e){
+    public void addEdge(WeightedEdge e){
         if(e.from < 0 || e.from >= V){
             throw new IllegalArgumentException();
         }
@@ -38,7 +38,7 @@ public class EdgeWeightedIntDigraph implements EdgeGraph{
         E++;
     }
 
-    public List<Edge> adj(int v){
+    public List<WeightedEdge> adj(int v){
         if(v < 0 || v > V){
             throw new IllegalArgumentException();
         }

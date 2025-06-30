@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Prim {
     private double[] distTo;
-    private Edge[] edgeTo;
+    private WeightedEdge[] edgeTo;
     private IndexMinPQ<Double> pq;
     private int s;
     private boolean[] marked;
@@ -14,7 +14,7 @@ public class Prim {
         this.G = G;
         this.s = s;
         distTo = new double[G.V()];
-        edgeTo = new Edge[G.V()];
+        edgeTo = new WeightedEdge[G.V()];
         marked = new boolean[G.V()];
         pq = new IndexMinPQ<>(G.V());
         for(int i = 0 ; i < G.V(); i++){
@@ -29,7 +29,7 @@ public class Prim {
         while(!pq.isEmpty()){
             int v = pq.delMin();
             marked[v] = true;
-            for(Edge e : G.adj(v)){
+            for(WeightedEdge e : G.adj(v)){
                 if(!marked[e.to] && e.weight < distTo[e.to]){
                     edgeTo[e.to] = e;
                     distTo[e.to] = e.weight; 
@@ -41,16 +41,16 @@ public class Prim {
     }
 
 
-    public List<Edge> MST(){
-        List<Edge> aux = new LinkedList<>();
+    public List<WeightedEdge> edges(){
+        List<WeightedEdge> mst = new LinkedList<>();
 
         for(int i = 0 ; i < edgeTo.length ; i++){
             if(edgeTo[i] != null){
-            aux.add(edgeTo[i]);
+            mst.add(edgeTo[i]);
             }
         }
 
-        return aux;
+        return mst;
         
     }
 
@@ -70,17 +70,17 @@ public class Prim {
         EdgeWeightedIntGraph G = new EdgeWeightedIntGraph(V);
 
         // Agrego aristas: (from, to, peso)
-        G.addEdge(new Edge(0, 1, 1.0));
+        G.addEdge(new WeightedEdge(0, 1, 1.0));
 
-        G.addEdge(new Edge(0, 3, 4.0));
+        G.addEdge(new WeightedEdge(0, 3, 4.0));
 
-        G.addEdge(new Edge(1, 3, 2.0));
+        G.addEdge(new WeightedEdge(1, 3, 2.0));
 
         // Ejecutar Prim desde el nodo 0
         Prim prim = new Prim(G, 0);
 
         System.out.println("Aristas del MST:");
-        for (Edge e : prim.MST()) {
+        for (WeightedEdge e : prim.edges()) {
             if (e != null) {
                 System.out.println(e.from + " — " + e.to + " (peso " + e.weight + ")");
             }
